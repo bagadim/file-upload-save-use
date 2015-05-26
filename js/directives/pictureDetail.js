@@ -1,11 +1,11 @@
 'use strict';
 angular.module('picturesPlatformApp')
-    .directive('customerInfo', function() {
+    .directive('pictureDetails', function() {
         return {
             restrict: 'E',
             scope: {
-                customerData:'=info'
+                customerData:'=picture'
             },
-            templateUrl: 'templates/customerInfoTemplate.html'
+            templateUrl: '<div></div>'
         }
 });

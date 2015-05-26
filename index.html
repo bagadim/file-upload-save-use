@@ -3,14 +3,7 @@
 <html ng-app="picturesPlatformApp">
     <head>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
-        <!--<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"/>-->
         <link rel="stylesheet" type="text/css" href="css/main.css"/>
-        <script src="lib/angular.js"></script>
-        <!-- shim is needed to support non-HTML5 FormData browsers (IE8-9)-->
-        <script src="lib/ng-file-upload-bower-4.2.4/ng-file-upload-shim.min.js"></script>
-        <script src="lib/ng-file-upload-bower-4.2.4/ng-file-upload.min.js"></script>
-        <!--<link rel="stylesheet" type="text/css" href="lib/bootstrap/css"/>-->
         <title>Pictures Platform</title>
 
     </head>
@@ -53,12 +46,16 @@
             <hr>
         </div>
 
-        <div class="pictureContainer" ng-repeat="pic in pictures">
-            <img ng-src={{pic.path}}  />
+        <div class="container">
+            <div class="pictureContainer" ng-repeat="pic in pictures">
+                <img ng-src={{pic.path}}  />
+            </div>
         </div>
-        <!--<script src="lib/angular.js"></script>-->
+        <script src="lib/angular.js"></script>
+        <!-- shim is needed to support non-HTML5 FormData browsers (IE8-9)-->
+        <script src="lib/ng-file-upload-bower-4.2.4/ng-file-upload-shim.min.js"></script>
+        <script src="lib/ng-file-upload-bower-4.2.4/ng-file-upload.min.js"></script>
         <script src="lib/jquery-1.11.1.min.js"></script>
-        <!--<script src="lib/ng-file-upload-bower-4.2.4/ng-file-upload-all.js"/>-->
         <script src="lib/bootstrap/js/bootstrap.js"></script>
         <script src="js/controllers/main.js"></script>
         <script src="js/services/picturesService.js"></script>
