@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html ng-app="picturesPlatformApp">
+    <head>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+        <!--<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"/>-->
+        <link rel="stylesheet" type="text/css" href="css/main.css"/>
+        <script src="lib/angular.js"></script>
+        <!-- shim is needed to support non-HTML5 FormData browsers (IE8-9)-->
+        <script src="lib/ng-file-upload-bower-4.2.4/ng-file-upload-shim.min.js"></script>
+        <script src="lib/ng-file-upload-bower-4.2.4/ng-file-upload.min.js"></script>
+        <!--<link rel="stylesheet" type="text/css" href="lib/bootstrap/css"/>-->
+        <title>Pictures Platform</title>
+
+    </head>
+    <body class="main" ng-controller="MainCtrl">
+
+        <div class="container" >
+            <h2>Pictures Platform</h2>
+            <hr>
+        </div>
+
+        <div class="container">
+            <h3>Upload Picture</h3>
+            <div id="uploadWidget"
+                 class="btn btn-default"
+                 ngf-accept="'.pdf,.jpg,.jpeg,.png'"
+                 ngf-max-size='3100000'
+                 ngf-select
+                 ngf-change="upload($files)">
+                Upload file
+            </div>
+            <hr>
+        </div>
+
+        <div class="container">
+            <h3>Uploaded Picture</h3>
+            <table class="table">
+                <tr>
+                    <td>Message: </td>
+                    <td>{{uploadingFileStatus.message}}</td>
+                </tr>
+                <tr>
+                    <td>Data: </td>
+                    <td>{{uploadingFileStatus.data}}</td>
+                </tr>
+                <tr ng-show="uploadingFileStatus.err">
+                    <td>Error: </td>
+                    <td>{{uploadingFileStatus.err}}</td>
+                </tr>
+            </table>
+            <hr>
+        </div>
+
+        <div class="pictureContainer" ng-repeat="pic in pictures">
+            <img ng-src={{pic.path}}  />
+        </div>
+        <!--<script src="lib/angular.js"></script>-->
+        <script src="lib/jquery-1.11.1.min.js"></script>
+        <!--<script src="lib/ng-file-upload-bower-4.2.4/ng-file-upload-all.js"/>-->
+        <script src="lib/bootstrap/js/bootstrap.js"></script>
+        <script src="js/controllers/main.js"></script>
+        <script src="js/services/picturesService.js"></script>
+        <script src="js/models/Picture.js"></script>
+        <script src="js/directives/pictureDetail.js"></script>
+    </body>
+</html>

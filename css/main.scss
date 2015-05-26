@@ -1,0 +1,7 @@
+$color_blue: rgb(46, 109, 164);
+th {
+  color: $color_blue;
+}
+.btn:focus, .btn:active {
+  outline: none;
+}

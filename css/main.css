@@ -1,0 +1,15 @@
+th {
+  color: #2e6da4; }
+
+.btn:focus, .btn:active {
+  outline: none; }
+
+.pictureContainer {
+  display: inline-block;
+  margin: 1em;
+}
+
+.pictureContainer img{
+  height: 200px;
+  width: 200px;
+}
