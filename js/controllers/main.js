@@ -33,7 +33,6 @@ app.controller('MainCtrl', ['$scope', 'Upload', 'CONSTANTS', 'picturesService', 
                     url : CONSTANTS.URL + '/' + data.name
                 };
                 $scope.uploadingFileStatus.data = tmpData;
-                console.log(tmpData);
                 picturesService.setPicture(tmpData);
                 console.log("picture was set.");
             }).error (function (data){

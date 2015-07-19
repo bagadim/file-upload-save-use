@@ -7,7 +7,7 @@ app.factory('Picture', ['$http','CONSTANTS', function($http, CONSTANTS) {
             this.setData(data);
         }
         console.log("Start saving picture. frontend");
-        $http.put(CONSTANTS.URL_PICTURES_API + '/' + 7, {title:"title",usageType:"Type"})
+        $http.put(CONSTANTS.URL_PICTURES_API + '/' + 7, {title:"title",usageType:"Type"});
         $http({
             method: 'POST',
             url: CONSTANTS.URL_PICTURES_API,

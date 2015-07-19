@@ -14,11 +14,13 @@ PictureRepository.prototype.find = function (id) {
     var picture = this.pictures.filter(function(item) {
         return item.pictureId == id;
     })[0];
-    if (null == picture) {
+
+    if (null === picture) {
         throw new Error('picture not found');
     }
+
     return picture;
-}
+};
 /**
  * Find the index of a picture
  * Param: id of the picture to find
@@ -31,18 +33,20 @@ PictureRepository.prototype.findIndex = function (id) {
             index = key;
         }
     });
+
     if (null == index) {
         throw new Error('picture not found');
     }
+
     return index;
-}
+};
 /**
  * Retrieve all pictures
  * Returns: array of pictures
  */
 PictureRepository.prototype.findAll = function () {
     return this.pictures;
-}
+};
 /**
  * Save a picture (create or update)
  * Param: picture the picture to save
@@ -52,12 +56,13 @@ PictureRepository.prototype.save = function (picture) {
         picture.pictureId = this.nextId;
         this.pictures.push(picture);
         this.nextId++;
-    } else {
+    }
+    else {
         var index = this.findIndex(picture.pictureId);
         this.pictures[index] = picture;
     }
 
-}
+};
 /**
  * Remove a picture
  * Param: id the of the picture to remove
@@ -65,34 +70,41 @@ PictureRepository.prototype.save = function (picture) {
 PictureRepository.prototype.remove = function (id) {
     var index = this.findIndex(id);
     this.pictures.splice(index, 1);
-}
+};
 /**
  * API
  */
 var express = require('express');
-var multer = require('multer');
-
 var app = express();
+var multer = require('multer');
+var bodyParser = require('body-parser');
 var PictureRepository = new PictureRepository();
 var uploadPath = '/uploads';
+var morgan = require('morgan');
 
 /**
- * APP configs
+ * APP configuration
  */
 app.use(express.static(__dirname + uploadPath));
+app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({ extended: false}));
 
 /**
  * HTTP POST /pictures/upload
  * Body Param: the JSON picture you want to upload to the server
  * Return: picture name on the server
  */
-app.post('/pictures/upload',[ multer({ dest: '.' + uploadPath + '/'}), function(req, res){
-    console.log("req.files=",JSON.stringify(req.files));// form files
-    var responseData = {};
-    responseData.name = req.files.file.name;
-    res.send(responseData);
-    res.end();
-}]);
+app.post('/pictures/upload',
+    [ multer({ dest: '.' + uploadPath + '/'}),
+        function(req, res){
+            console.log('req.files=', JSON.stringify(req.files));// form files
+            var responseData = {};
+            responseData.name = req.files.file.name;
+            res.send(responseData);
+            res.end();
+        }
+    ]
+);
 
 /**
  * HTTP GET /pictures
@@ -101,6 +113,7 @@ app.post('/pictures/upload',[ multer({ dest: '.' + uploadPath + '/'}), function(
 app.get('/pictures', function (request, response) {
     response.json({pictures: PictureRepository.findAll()});
 });
+
 /**
  * HTTP GET /pictures/:id
  * Param: :id is the unique identifier of the picture you want to retrieve
@@ -109,20 +122,23 @@ app.get('/pictures', function (request, response) {
  */
 app.get('/pictures/:id', function (request, response) {
     var pictureId = request.params.id;
+
     try {
         response.json(PictureRepository.find(pictureId));
-    } catch (exeception) {
+    }
+    catch (exeception) {
         response.send(404);
     }
 
 });
+
 /**
  * HTTP POST /pictures/
  * Body Param: the JSON picture you want to create
  * Returns: 200 HTTP code
  */
 app.post('/pictures', function (request, response) {
-    console.log("------post------/pictures");
+    console.log("------post------\n\n/pictures");
     var picture = request.body;
     console.log("req.files=",JSON.stringify(request.files));
     console.log("req.body=",JSON.stringify(request.body));
@@ -133,8 +149,10 @@ app.post('/pictures', function (request, response) {
         size: picture.size || 1,
         url: picture.url || 'defaulturl'
     });
+
     response.send(200);
 });
+
 /**
  * HTTP PUT /pictures/
  * Param: :id the unique identifier of the picture you want to update
@@ -143,13 +161,15 @@ app.post('/pictures', function (request, response) {
  * Error: 404 HTTP code if the picture doesn't exists
  */
 app.put('/pictures/:id', function (request, response) {
-    console.log("-------put-------/pictures/id")
+    console.log("-------put-------\n\n/pictures/id");
     console.log("req.files=",JSON.stringify(request.files));
     console.log("req.body=",JSON.stringify(request.body));
     var picture = request.body;
     var pictureId = request.params.id;
+
     try {
         var persistedpicture = PictureRepository.find(pictureId);
+
         PictureRepository.save({
             pictureId: persistedpicture.pictureId,
             type: picture.type || persistedpicture.type,
@@ -158,10 +178,12 @@ app.put('/pictures/:id', function (request, response) {
             url: picture.url || persistedpicture.url
         });
         response.send(200);
-    } catch (exception) {
+    }
+    catch (exception) {
         response.send(404);
     }
 });
+
 /**
  * HTTP PUT /pictures/
  * Param: :id the unique identifier of the picture you want to update
@@ -173,9 +195,11 @@ app.delete('/pictures/:id', function (request, response) {
     try {
         PictureRepository.remove(request.params.id);
         response.send(200);
-    } catch (exeception) {
+    }
+    catch (exeception) {
         response.send(404);
     }
 });
 
 app.listen(8080); //to port on which the express server listen
+console.log("App listening on port 8080");
